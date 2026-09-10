@@ -1,0 +1,1417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Nakshatra Editorial V2</title>
+
+  <meta
+    name="description"
+    content="Nakshatra Magazine & Publishers Editorial Management Dashboard"
+  >
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #f6f5f2;
+      --surface: #ffffff;
+      --surface-soft: #faf9f7;
+      --border: #e7e4de;
+      --text: #181817;
+      --muted: #77736c;
+      --accent: #1d1d1b;
+      --green: #237a4b;
+      --green-bg: #eaf6ee;
+      --red: #b33a3a;
+      --red-bg: #faeded;
+      --orange: #9a6719;
+      --orange-bg: #fff5df;
+      --shadow: 0 10px 35px rgba(0, 0, 0, 0.045);
+    }
+
+    body {
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Helvetica,
+        Arial,
+        sans-serif;
+
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .app {
+      min-height: 100vh;
+    }
+
+    /* =========================
+       HEADER
+    ========================= */
+
+    header {
+      background: rgba(255, 255, 255, 0.94);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(14px);
+    }
+
+    .header-inner {
+      max-width: 1500px;
+      margin: 0 auto;
+      padding: 18px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      min-width: 0;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border: 1px solid #d7d3cc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      flex-shrink: 0;
+      background: #fff;
+    }
+
+    .brand-text {
+      min-width: 0;
+    }
+
+    .brand-title {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 21px;
+      letter-spacing: 0.3px;
+      white-space: nowrap;
+    }
+
+    .brand-subtitle {
+      color: var(--muted);
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-top: 3px;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .last-updated {
+      color: var(--muted);
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .refresh-btn {
+      border: 1px solid var(--border);
+      background: #fff;
+      color: var(--text);
+      padding: 10px 15px;
+      border-radius: 6px;
+      transition: 0.2s ease;
+    }
+
+    .refresh-btn:hover {
+      background: #f4f2ee;
+    }
+
+    .refresh-btn:disabled {
+      opacity: 0.55;
+      cursor: wait;
+    }
+
+    /* =========================
+       MAIN
+    ========================= */
+
+    main {
+      max-width: 1500px;
+      margin: 0 auto;
+      padding: 34px 28px 60px;
+    }
+
+    .page-heading {
+      margin-bottom: 25px;
+    }
+
+    .page-heading h1 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 400;
+      letter-spacing: -0.6px;
+    }
+
+    .page-heading p {
+      color: var(--muted);
+      margin-top: 7px;
+      font-size: 14px;
+    }
+
+    /* =========================
+       STATS
+    ========================= */
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 25px;
+    }
+
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      padding: 23px;
+      min-height: 125px;
+    }
+
+    .stat-label {
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+    }
+
+    .stat-value {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 38px;
+      margin-top: 14px;
+      line-height: 1;
+    }
+
+    .stat-note {
+      color: var(--muted);
+      font-size: 11px;
+      margin-top: 9px;
+    }
+
+    /* =========================
+       CONTROLS
+    ========================= */
+
+    .controls {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .search-wrap {
+      flex: 1;
+      position: relative;
+    }
+
+    .search-wrap input {
+      width: 100%;
+      height: 43px;
+      border: 1px solid var(--border);
+      background: var(--surface-soft);
+      padding: 0 14px;
+      outline: none;
+      color: var(--text);
+      border-radius: 5px;
+    }
+
+    .search-wrap input:focus {
+      border-color: #b8b3aa;
+      background: #fff;
+    }
+
+    .filter-select {
+      height: 43px;
+      min-width: 160px;
+      border: 1px solid var(--border);
+      background: #fff;
+      padding: 0 12px;
+      color: var(--text);
+      outline: none;
+      border-radius: 5px;
+    }
+
+    /* =========================
+       TABLE
+    ========================= */
+
+    .table-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .table-header {
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+    }
+
+    .table-title {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 20px;
+    }
+
+    .record-count {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .table-scroll {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    table {
+      width: 100%;
+      min-width: 950px;
+      border-collapse: collapse;
+    }
+
+    th {
+      text-align: left;
+      padding: 13px 17px;
+      background: #faf9f7;
+      border-bottom: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 10px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    td {
+      padding: 15px 17px;
+      border-bottom: 1px solid #eeeae4;
+      font-size: 13px;
+      vertical-align: middle;
+    }
+
+    tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    tbody tr:hover {
+      background: #fcfbf9;
+    }
+
+    .submission-id {
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .author {
+      min-width: 145px;
+    }
+
+    .title-cell {
+      min-width: 230px;
+      max-width: 360px;
+    }
+
+    .title-main {
+      font-weight: 500;
+      line-height: 1.4;
+    }
+
+    .email {
+      display: block;
+      color: var(--muted);
+      font-size: 11px;
+      margin-top: 4px;
+    }
+
+    .received {
+      white-space: nowrap;
+      color: #4d4a45;
+    }
+
+    .reviewer {
+      white-space: nowrap;
+      color: #4d4a45;
+    }
+
+    .remark {
+      max-width: 300px;
+      min-width: 200px;
+      color: #55514b;
+      line-height: 1.45;
+    }
+
+    /* =========================
+       STATUS
+    ========================= */
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      padding: 5px 9px;
+      border-radius: 20px;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.4px;
+      white-space: nowrap;
+    }
+
+    .status.accepted {
+      color: var(--green);
+      background: var(--green-bg);
+    }
+
+    .status.rejected {
+      color: var(--red);
+      background: var(--red-bg);
+    }
+
+    .status.pending,
+    .status.review,
+    .status.under-review {
+      color: var(--orange);
+      background: var(--orange-bg);
+    }
+
+    .status.other {
+      color: #65615b;
+      background: #f0efec;
+    }
+
+    /* =========================
+       STATES
+    ========================= */
+
+    .state {
+      padding: 55px 25px;
+      text-align: center;
+      color: var(--muted);
+    }
+
+    .state strong {
+      display: block;
+      color: var(--text);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 21px;
+      font-weight: 400;
+      margin-bottom: 8px;
+    }
+
+    .error-state strong {
+      color: var(--red);
+    }
+
+    .retry-btn {
+      margin-top: 18px;
+      border: 1px solid var(--border);
+      background: #fff;
+      padding: 9px 15px;
+      border-radius: 5px;
+    }
+
+    .loading {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .spinner {
+      width: 15px;
+      height: 15px;
+      border: 2px solid #ddd;
+      border-top-color: #222;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* =========================
+       FOOTER
+    ========================= */
+
+    footer {
+      max-width: 1500px;
+      margin: 0 auto;
+      padding: 0 28px 30px;
+      color: var(--muted);
+      font-size: 11px;
+      text-align: center;
+      letter-spacing: 0.4px;
+    }
+
+    /* =========================
+       RESPONSIVE
+    ========================= */
+
+    @media (max-width: 800px) {
+      .header-inner {
+        padding: 15px 16px;
+      }
+
+      .brand-title {
+        font-size: 18px;
+      }
+
+      .brand-subtitle {
+        font-size: 9px;
+      }
+
+      .brand-mark {
+        width: 38px;
+        height: 38px;
+      }
+
+      .last-updated {
+        display: none;
+      }
+
+      main {
+        padding: 25px 15px 45px;
+      }
+
+      .stats {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .stat-card {
+        min-height: auto;
+        padding: 18px;
+      }
+
+      .stat-value {
+        font-size: 32px;
+      }
+
+      .controls {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .filter-select {
+        width: 100%;
+      }
+
+      .table-header {
+        padding: 16px;
+      }
+
+      footer {
+        padding: 0 15px 25px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .brand-subtitle {
+        display: none;
+      }
+
+      .refresh-btn {
+        padding: 9px 11px;
+        font-size: 12px;
+      }
+
+      .page-heading h1 {
+        font-size: 30px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <!-- =========================
+       HEADER
+  ========================== -->
+
+  <header>
+    <div class="header-inner">
+
+      <div class="brand">
+        <div class="brand-mark">N</div>
+
+        <div class="brand-text">
+          <div class="brand-title">
+            Nakshatra Editorial
+          </div>
+
+          <div class="brand-subtitle">
+            Magazine &amp; Publishers
+          </div>
+        </div>
+      </div>
+
+      <div class="header-actions">
+
+        <div
+          class="last-updated"
+          id="lastUpdated"
+        >
+          Not loaded
+        </div>
+
+        <button
+          class="refresh-btn"
+          id="refreshBtn"
+          type="button"
+        >
+          Refresh
+        </button>
+
+      </div>
+
+    </div>
+  </header>
+
+
+  <!-- =========================
+       MAIN
+  ========================== -->
+
+  <main>
+
+    <section class="page-heading">
+      <h1>Editorial Dashboard</h1>
+
+      <p>
+        Submission overview and editorial records
+      </p>
+    </section>
+
+
+    <!-- =========================
+         STATISTICS
+    ========================== -->
+
+    <section class="stats">
+
+      <div class="stat-card">
+
+        <div class="stat-label">
+          Total Submissions
+        </div>
+
+        <div
+          class="stat-value"
+          id="totalCount"
+        >
+          —
+        </div>
+
+        <div class="stat-note">
+          All records received
+        </div>
+
+      </div>
+
+
+      <div class="stat-card">
+
+        <div class="stat-label">
+          Accepted
+        </div>
+
+        <div
+          class="stat-value"
+          id="acceptedCount"
+        >
+          —
+        </div>
+
+        <div class="stat-note">
+          Accepted manuscripts
+        </div>
+
+      </div>
+
+
+      <div class="stat-card">
+
+        <div class="stat-label">
+          Rejected
+        </div>
+
+        <div
+          class="stat-value"
+          id="rejectedCount"
+        >
+          —
+        </div>
+
+        <div class="stat-note">
+          Rejected manuscripts
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         SEARCH / FILTER
+    ========================== -->
+
+    <section class="controls">
+
+      <div class="search-wrap">
+
+        <input
+          id="searchInput"
+          type="search"
+          placeholder="Search submission ID, author, title, email, reviewer..."
+          autocomplete="off"
+        >
+
+      </div>
+
+      <select
+        id="statusFilter"
+        class="filter-select"
+      >
+        <option value="ALL">All statuses</option>
+        <option value="Accepted">Accepted</option>
+        <option value="Rejected">Rejected</option>
+        <option value="Pending">Pending</option>
+        <option value="Under Review">Under Review</option>
+      </select>
+
+    </section>
+
+
+    <!-- =========================
+         DATA TABLE
+    ========================== -->
+
+    <section class="table-card">
+
+      <div class="table-header">
+
+        <div class="table-title">
+          Submissions
+        </div>
+
+        <div
+          class="record-count"
+          id="recordCount"
+        >
+          Loading…
+        </div>
+
+      </div>
+
+      <div class="table-scroll">
+
+        <div id="tableContainer">
+
+          <div class="state">
+
+            <div class="loading">
+
+              <span class="spinner"></span>
+
+              Loading editorial records…
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <footer>
+    Nakshatra Magazine &amp; Publishers · Editorial Management System
+  </footer>
+
+</div>
+
+
+<script>
+  "use strict";
+
+
+  /* ==========================================================
+     NAKSHATRA EDITORIAL API
+     
+     IMPORTANT:
+     The browser communicates ONLY with Cloudflare Worker.
+     No Apps Script URL or API token is exposed here.
+  ========================================================== */
+
+  const API_URL =
+    "https://nakshatra-editorial-api.nakshatra-mag-in.workers.dev";
+
+
+  /* ==========================================================
+     APPLICATION STATE
+  ========================================================== */
+
+  let submissions = [];
+
+
+  /* ==========================================================
+     DOM ELEMENTS
+  ========================================================== */
+
+  const totalCount =
+    document.getElementById("totalCount");
+
+  const acceptedCount =
+    document.getElementById("acceptedCount");
+
+  const rejectedCount =
+    document.getElementById("rejectedCount");
+
+  const searchInput =
+    document.getElementById("searchInput");
+
+  const statusFilter =
+    document.getElementById("statusFilter");
+
+  const tableContainer =
+    document.getElementById("tableContainer");
+
+  const recordCount =
+    document.getElementById("recordCount");
+
+  const refreshBtn =
+    document.getElementById("refreshBtn");
+
+  const lastUpdated =
+    document.getElementById("lastUpdated");
+
+
+  /* ==========================================================
+     SAFE HTML ESCAPING
+  ========================================================== */
+
+  function escapeHTML(value) {
+
+    if (
+      value === null ||
+      value === undefined
+    ) {
+      return "";
+    }
+
+    return String(value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+
+
+  /* ==========================================================
+     NORMALIZE VALUES
+  ========================================================== */
+
+  function normalize(value) {
+
+    if (
+      value === null ||
+      value === undefined
+    ) {
+      return "";
+    }
+
+    return String(value).trim();
+  }
+
+
+  /* ==========================================================
+     STATUS CLASS
+  ========================================================== */
+
+  function getStatusClass(status) {
+
+    const value =
+      normalize(status).toLowerCase();
+
+    if (value === "accepted") {
+      return "accepted";
+    }
+
+    if (value === "rejected") {
+      return "rejected";
+    }
+
+    if (
+      value === "pending" ||
+      value === "submitted"
+    ) {
+      return "pending";
+    }
+
+    if (
+      value === "under review" ||
+      value === "review" ||
+      value === "in review"
+    ) {
+      return "under-review";
+    }
+
+    return "other";
+  }
+
+
+  /* ==========================================================
+     STATUS DISPLAY
+  ========================================================== */
+
+  function statusHTML(status) {
+
+    const cleanStatus =
+      normalize(status) || "Unknown";
+
+    const className =
+      getStatusClass(cleanStatus);
+
+    return `
+      <span class="status ${className}">
+        ${escapeHTML(cleanStatus)}
+      </span>
+    `;
+  }
+
+
+  /* ==========================================================
+     FORMAT RECEIVED DATE
+  ========================================================== */
+
+  function formatReceived(row) {
+
+    const date =
+      normalize(row["Received Date"]);
+
+    const time =
+      normalize(row["Received Time"]);
+
+    if (!date && !time) {
+      return "—";
+    }
+
+    if (date && time) {
+      return `${escapeHTML(date)}<br><small>${escapeHTML(time)}</small>`;
+    }
+
+    return escapeHTML(date || time);
+  }
+
+
+  /* ==========================================================
+     FETCH DATA
+  ========================================================== */
+
+  async function loadSubmissions() {
+
+    refreshBtn.disabled = true;
+
+    tableContainer.innerHTML = `
+      <div class="state">
+        <div class="loading">
+          <span class="spinner"></span>
+          Loading editorial records…
+        </div>
+      </div>
+    `;
+
+    try {
+
+      const response =
+        await fetch(API_URL, {
+          method: "GET",
+          headers: {
+            "Accept": "application/json"
+          },
+          cache: "no-store"
+        });
+
+
+      if (!response.ok) {
+
+        throw new Error(
+          `API returned HTTP ${response.status}`
+        );
+
+      }
+
+
+      const data =
+        await response.json();
+
+
+      if (!data || data.success !== true) {
+
+        throw new Error(
+          data && data.error
+            ? data.error
+            : "The editorial API returned an invalid response."
+        );
+
+      }
+
+
+      if (!Array.isArray(data.submissions)) {
+
+        throw new Error(
+          "Submission data is missing or invalid."
+        );
+
+      }
+
+
+      submissions =
+        data.submissions;
+
+
+      updateStatistics();
+
+      renderTable();
+
+
+      lastUpdated.textContent =
+        "Updated " +
+        new Date().toLocaleTimeString(
+          [],
+          {
+            hour: "numeric",
+            minute: "2-digit"
+          }
+        );
+
+
+    } catch (error) {
+
+      console.error(
+        "Nakshatra Editorial API error:",
+        error
+      );
+
+
+      tableContainer.innerHTML = `
+        <div class="state error-state">
+
+          <strong>
+            Unable to load submissions
+          </strong>
+
+          <div>
+            Please check the API connection and try again.
+          </div>
+
+          <button
+            class="retry-btn"
+            type="button"
+            onclick="loadSubmissions()"
+          >
+            Try again
+          </button>
+
+        </div>
+      `;
+
+      recordCount.textContent =
+        "Connection error";
+
+      totalCount.textContent = "—";
+      acceptedCount.textContent = "—";
+      rejectedCount.textContent = "—";
+
+    } finally {
+
+      refreshBtn.disabled = false;
+
+    }
+
+  }
+
+
+  /* ==========================================================
+     UPDATE STATISTICS
+  ========================================================== */
+
+  function updateStatistics() {
+
+    const total =
+      submissions.length;
+
+
+    const accepted =
+      submissions.filter(row => {
+
+        return normalize(
+          row["Status"]
+        ).toLowerCase() === "accepted";
+
+      }).length;
+
+
+    const rejected =
+      submissions.filter(row => {
+
+        return normalize(
+          row["Status"]
+        ).toLowerCase() === "rejected";
+
+      }).length;
+
+
+    totalCount.textContent =
+      total.toLocaleString();
+
+    acceptedCount.textContent =
+      accepted.toLocaleString();
+
+    rejectedCount.textContent =
+      rejected.toLocaleString();
+
+  }
+
+
+  /* ==========================================================
+     FILTER RECORDS
+  ========================================================== */
+
+  function getFilteredSubmissions() {
+
+    const search =
+      normalize(
+        searchInput.value
+      ).toLowerCase();
+
+
+    const selectedStatus =
+      normalize(
+        statusFilter.value
+      ).toLowerCase();
+
+
+    return submissions.filter(row => {
+
+      const status =
+        normalize(
+          row["Status"]
+        ).toLowerCase();
+
+
+      if (
+        selectedStatus !== "all" &&
+        status !== selectedStatus
+      ) {
+
+        return false;
+
+      }
+
+
+      if (!search) {
+        return true;
+      }
+
+
+      const searchableText = [
+
+        row["Submission ID"],
+        row["Author Name"],
+        row["Author Email"],
+        row["Title"],
+        row["Reviewer"],
+        row["Remark"],
+        row["Status"]
+
+      ]
+        .map(normalize)
+        .join(" ")
+        .toLowerCase();
+
+
+      return searchableText.includes(search);
+
+    });
+
+  }
+
+
+  /* ==========================================================
+     RENDER TABLE
+  ========================================================== */
+
+  function renderTable() {
+
+    const filtered =
+      getFilteredSubmissions();
+
+
+    recordCount.textContent =
+      `${filtered.length.toLocaleString()} of ${submissions.length.toLocaleString()} records`;
+
+
+    if (filtered.length === 0) {
+
+      tableContainer.innerHTML = `
+        <div class="state">
+
+          <strong>
+            No submissions found
+          </strong>
+
+          <div>
+            Try changing your search or status filter.
+          </div>
+
+        </div>
+      `;
+
+      return;
+
+    }
+
+
+    const rows =
+      filtered.map(row => {
+
+        const submissionId =
+          normalize(
+            row["Submission ID"]
+          ) || "—";
+
+
+        const authorName =
+          normalize(
+            row["Author Name"]
+          ) || "—";
+
+
+        const authorEmail =
+          normalize(
+            row["Author Email"]
+          );
+
+
+        const title =
+          normalize(
+            row["Title"]
+          ) || "Untitled";
+
+
+        const reviewer =
+          normalize(
+            row["Reviewer"]
+          ) || "—";
+
+
+        const remark =
+          normalize(
+            row["Remark"]
+          ) || "—";
+
+
+        return `
+
+          <tr>
+
+            <td>
+              <div class="submission-id">
+                ${escapeHTML(submissionId)}
+              </div>
+            </td>
+
+
+            <td>
+              <div class="author">
+
+                ${escapeHTML(authorName)}
+
+                ${
+                  authorEmail
+                    ? `<span class="email">${escapeHTML(authorEmail)}</span>`
+                    : ""
+                }
+
+              </div>
+            </td>
+
+
+            <td>
+              <div class="title-cell">
+
+                <div class="title-main">
+                  ${escapeHTML(title)}
+                </div>
+
+              </div>
+            </td>
+
+
+            <td>
+              <div class="received">
+                ${formatReceived(row)}
+              </div>
+            </td>
+
+
+            <td>
+              ${statusHTML(row["Status"])}
+            </td>
+
+
+            <td>
+              <div class="reviewer">
+                ${escapeHTML(reviewer)}
+              </div>
+            </td>
+
+
+            <td>
+              <div class="remark">
+                ${escapeHTML(remark)}
+              </div>
+            </td>
+
+          </tr>
+
+        `;
+
+      }).join("");
+
+
+    tableContainer.innerHTML = `
+
+      <table>
+
+        <thead>
+
+          <tr>
+
+            <th>
+              Submission ID
+            </th>
+
+            <th>
+              Author
+            </th>
+
+            <th>
+              Title
+            </th>
+
+            <th>
+              Received
+            </th>
+
+            <th>
+              Status
+            </th>
+
+            <th>
+              Reviewer
+            </th>
+
+            <th>
+              Remark
+            </th>
+
+          </tr>
+
+        </thead>
+
+
+        <tbody>
+          ${rows}
+        </tbody>
+
+      </table>
+
+    `;
+
+  }
+
+
+  /* ==========================================================
+     EVENTS
+  ========================================================== */
+
+  searchInput.addEventListener(
+    "input",
+    renderTable
+  );
+
+
+  statusFilter.addEventListener(
+    "change",
+    renderTable
+  );
+
+
+  refreshBtn.addEventListener(
+    "click",
+    loadSubmissions
+  );
+
+
+  /* ==========================================================
+     INITIAL LOAD
+  ========================================================== */
+
+  loadSubmissions();
+
+</script>
+
+</body>
+</html>
