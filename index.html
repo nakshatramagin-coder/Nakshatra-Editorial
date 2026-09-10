@@ -1693,10 +1693,35 @@ function openRecord(id){
 
 
           <button
-            class="btn wide"
-            onclick='beginAction("${escapeHTML(id)}","archive")'>
-            Archive submission
-          </button>
+  class="btn wide"
+  onclick='beginAction("${escapeHTML(id)}","archive")'>
+  Archive submission
+</button>
+
+
+${
+  value(
+    current,
+    "Status"
+  ) === "Rejected"
+  &&
+  value(
+    current,
+    "Deleted"
+  ).toLowerCase() !== "yes"
+  ?
+  `
+
+    <button
+      class="btn danger wide"
+      onclick='beginAction("${escapeHTML(id)}","deleteManuscript")'>
+      Delete manuscript
+    </button>
+
+  `
+  :
+  ""
+}
 
         `
         :
@@ -1858,7 +1883,10 @@ function beginAction(id,action){
       "Restore submission",
 
     remark:
-      "Save remark"
+  "Save remark",
+
+deleteManuscript:
+  "Delete rejected manuscript"
 
   };
 
