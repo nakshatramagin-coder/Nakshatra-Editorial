@@ -1796,6 +1796,7 @@ async function readManuscript(id) {
   const box = document.getElementById("manuscriptContent");
 
   if (!box) return;
+  box.parentElement.classList.remove("hidden");
 
   box.textContent = "Loading manuscript…";
 
