@@ -1767,7 +1767,31 @@ function openRecord(id){
   ).classList.add("show");
 
 }
+async function readManuscript(id) {
+  const box = document.getElementById("manuscriptContent");
 
+  if (!box) return;
+
+  box.textContent = "Loading manuscript…";
+
+  try {
+    const response = await fetch(
+      `${API_URL}?action=getManuscriptContent&submissionId=${encodeURIComponent(id)}`
+    );
+
+    const data = await response.json();
+
+    if (!data.success) {
+      throw new Error(data.error || "Unable to load manuscript.");
+    }
+
+    box.textContent = data.content || "Manuscript is empty.";
+
+  } catch (error) {
+    box.textContent =
+      "Unable to load manuscript: " + error.message;
+  }
+}
 
 function detail(label,key){
 
